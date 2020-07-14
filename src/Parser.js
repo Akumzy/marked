@@ -22,7 +22,7 @@ module.exports = class Parser {
   /**
    * Static Parse Method
    */
-  static parse(tokens, options) {
+  static parse (tokens, options) {
     const parser = new Parser(options);
     return parser.parse(tokens);
   }
@@ -30,7 +30,7 @@ module.exports = class Parser {
   /**
    * Parse Loop
    */
-  parse(tokens, top = true) {
+  parse (tokens, top = true) {
     let out = '',
       i,
       j,
@@ -189,7 +189,7 @@ module.exports = class Parser {
   /**
    * Parse Inline Tokens
    */
-  parseInline(tokens, renderer) {
+  parseInline (tokens, renderer) {
     renderer = renderer || this.renderer;
     let out = '',
       i,
@@ -240,6 +240,10 @@ module.exports = class Parser {
           break;
         }
         default: {
+          if (this.options.tokens && this.options.tokens[token.type]) {
+            out += renderer[token.type](token)
+            break
+          }
           const errMsg = 'Token with "' + token.type + '" type was not found.';
           if (this.options.silent) {
             console.error(errMsg);
